@@ -1,29 +1,36 @@
 # Door-Locker-Security-System
 
-Implement the Door Locker Security System to unlock a door using a password.
-with the specifications listed below:
-1) Use two ATmega32 Microcontrollers with frequency 8Mhz.
-2) The project should be design and implemented based on the layered architecture 
-model as follow:
+Door Locker Security System is implemented to unlock a door using a password with the specifications listed below:
+1) Two ATmega32 Microcontrollers are used with frequency 8Mhz.
+2) The project should be design and implemented based on the layered architecture model as follow:
+3) **HMI_ECU** is just responsible interaction with the user just take inputs through keypad and display messages on the LCD.
+4) **CONTROL_ECU** is responsible for all the processing and decisions in the system like password checking, open the door and activate the system alarm.
 
-ℳc1 → HMI_ECU (Human Machine Interface) with 2x16 LCD and 4x4 keypad.
-ℳc2 → Control_ECU with EEPROM, Buzzer, and Dc-Motor.
-3)HMI_ECU is just responsible interaction with the user just take inputs through keypad and display 
-messages on the LCD.
-4)CONTROL_ECU is responsible for all the processing and decisions in the system like password 
-checking, open the door and activate the system alarm.
+| Software Layered Model                      | HMI_ECU             |  CONTROL_ECU |
+| :---                                        |     :---:           |  :---:       |
+| Application Layer (APP)                     | HMI Application     | CTRL Application |
+| Hardware Abstraction Layer (HAL)            | LCD  - KEYPAD       | BUZZER - EEPROM - DC MOTOR |
+| MicroController Abstraction Layer (MCAL)    | GPIO - UART - TIMER | GPIO - UART - TIMER - I2C  |
+
+     MC1 → HMI_ECU (Human Machine Interface) with 2x16 LCD and 4x4 keypad.
+     MC2 → Control_ECU with EEPROM, Buzzer, and Dc-Motor.
+
 
 ## Procedure
+
 ### Step1 – Create a System Password
 - The LCD should display “Please Enter Password” like that:
+
 - Enter a password consists of 5 numbers, Display * in the screen for each number. 
+
 - Press enter button (choose any button in the keypad as enter button).
-- Ask the user to renter the same password for confirmation by display this message 
-“Please re-enter the same Pass”:
+
+- Ask the user to renter the same password for confirmation by display this message “Please re-enter the same Pass”:
 - Enter a password consists of 5 numbers, Display * in the screen for each number. 
 - Press enter button (choose any button in the keypad as enter button).
 - HMI_ECU should send the two passwords to the Control_ECU through the UART.
-- If the two passwords are matched then the system has a password now and save it 
+
+ * If the two passwords are matched then the system has a password now and save it 
 inside the EEPORM and go to Step 2.
 - If the two passwords are unmatched then repeat step 1 again.
 ### Step2 - Main Options
